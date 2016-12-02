@@ -1,0 +1,21 @@
+.search	{
+	margin-top: 20px;
+	border: 1px solid #CBD2D4;
+	border-radius: 5px;
+    padding: 10px;
+    cursor: text;
+}
+
+.memberTag{
+    margin-right: 5px;
+    cursor: default;
+}
+
+#tagInput{
+    border: 0px none;
+    outline: none;
+}
+
+#refresh-btn {
+	margin-top:10px;
+}

@@ -1,0 +1,66 @@
+<div>
+    <div class="filter input-group">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="model" />
+    </div>
+    <div class="table-responsive" id="employeesTable">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span (click)="sortType = 'name'; sortReverse = !sortReverse" class="text-primary sort-criteria">
+                        <span class="float-md-left">Name</span>
+                        <span [hidden]="sortType !== 'name' || sortReverse" class="fa fa-sort-asc float-md-right"></span>
+                        <span [hidden]="sortType !== 'name' || !sortReverse" class="fa fa-sort-desc float-md-right"></span>
+                        </span>
+                    </th>
+                    <th>
+                        <span href (click)="sortType = 'job'; sortReverse = !sortReverse" class="text-primary sort-criteria">
+                        <span class="float-md-left">Job</span>
+                        <span [hidden]="sortType !== 'job' || sortReverse" class="fa fa-sort-asc float-md-right"></span>
+                        <span [hidden]="sortType !== 'job' || !sortReverse" class="fa fa-sort-desc float-md-right"></span>
+                        </span>
+                    </th>
+                    <th>
+                        <span (click)="sortType = 'age'; sortReverse = !sortReverse" class="text-primary sort-criteria">
+                        <span class="float-md-left">Age</span>
+                        <span [hidden]="sortType !== 'age' || sortReverse" class="fa fa-sort-asc float-md-right"></span>
+                        <span [hidden]="sortType !== 'age' || !sortReverse" class="fa fa-sort-desc float-md-right"></span>
+                        </span>
+                    </th>
+                    <th>
+                        <span (click)="sortType = 'grade'; sortReverse = !sortReverse" class="text-primary sort-criteria">
+                        <span class="float-md-left">Grade</span>
+                        <span [hidden]="sortType !== 'grade' || sortReverse" class="fa fa-sort-asc float-md-right"></span>
+                        <span [hidden]="sortType !== 'grade' || !sortReverse" class="fa fa-sort-desc float-md-right"></span>
+                        </span>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <template *ngIf="availableEmployees.length > 0" ngFor let-employee [ngForOf]="availableEmployees | employeesSearchPipe:model | employeesOrderByPipe:sortType:sortReverse" let-i="index">
+                    <tr class="clickable" (click)="employee.hidden = !employee.hidden" placement="bottom" ngbTooltip="{{employee.name}}, {{employee.job}} ({{employee.grade}})">
+                        <td [innerHTML]="employee.name | employeesHighlightPipe:model"></td>
+                        <td [innerHTML]="employee.job | employeesHighlightPipe:model"></td>
+                        <td>{{employee.age}}</td>
+                        <td [innerHTML]="employee.grade | employeesHighlightPipe:model"></td>
+                        <td class="text-sm-center"><button class="btn btn-sm" (click)="addMember(employee)">Choose</button></td>
+                    </tr>
+                    <tr [hidden]="employee.hidden">
+                        <td colspan="5">
+                            Some reviews about {{employee.name}}
+                        </td>
+                    </tr>
+                </template>
+                <!--<tr class="clickable" *ngFor="let employee of availableEmployees | employeesSearchPipe:model | employeesOrderByPipe:sortType:sortReverse" placement="bottom" ngbTooltip="{{employee.name}}, {{employee.job}} ({{employee.grade}})">
+                    <td [innerHTML]="employee.name | employeesHighlightPipe:model"></td>
+                    <td [innerHTML]="employee.job | employeesHighlightPipe:model"></td>
+                    <td>{{employee.age}}</td>
+                    <td [innerHTML]="employee.grade | employeesHighlightPipe:model"></td>
+                    <td class="text-sm-center"><button class="btn btn-sm" (click)="addMember(employee)">Choose</button></td>
+                </tr>-->
+            </tbody>
+        </table>
+    </div>
+</div>

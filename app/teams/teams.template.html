@@ -1,0 +1,19 @@
+<div id="add-block" class="form-inline col-md-12">
+    <input type="text" id="createTeamField" class="form-control" placeholder="Create a new team" [(ngModel)]="newTeam.name" #name="ngModel"
+        pattern="^[A-Za-z0-9 ]+$" (ngModelChange)="checkIfNameIsTaken()" />
+    <button class="btn btn-default float-md-right" [disabled]="!newTeam.name || name.invalid || nameIsTaken" (click)="addTeam()">Add</button>
+    <div [hidden]="name.valid" class="text-danger">Latin characters and numbers only!</div>
+    <div [hidden]="!nameIsTaken" class="text-danger">This name is already taken!</div>
+</div>
+<div class="col-md-12">
+    <ngb-accordion [closeOthers]="true" *ngIf="teams.length > 0" (panelChange)="setCurrentTeam($event)">
+        <ngb-panel *ngFor="let team of teams; let i = index" title="{{team.name}}" id="{{i}}">
+            <template ngbPanelContent>
+                <div *ngFor="let member of team.members">
+                    <span placement="bottom" ngbTooltip="{{member.name}}, {{member.job}} ({{member.grade}})">{{member.name}}</span>
+                    <span class="fa fa-remove float-md-right" (click)="removeMember(member)"></span>
+                </div>
+            </template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

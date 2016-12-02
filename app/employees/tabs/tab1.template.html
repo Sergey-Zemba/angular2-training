@@ -1,0 +1,8 @@
+<div>
+    <div class="search" (click)="focus()">
+        <span class="tag tag-default memberTag" *ngFor="let member of currentMembers; let i = index" placement="bottom" ngbTooltip="{{member.name}}, {{member.job}} ({{member.grade}})">{{member.name}}&nbsp;<span class="fa fa-remove" (click)="removeThisMember(i)"></span></span>
+        <input id="tagInput" type="text" placeholder="Search an employee" [(ngModel)]="model" [ngbTypeahead]="search" [resultFormatter]="resultFormatter"
+            (selectItem)="itemSelected($event)" (keydown.backspace)="removeLastMember()" />
+    </div>
+    <button id="refresh-btn" class="btn btn-default float-md-right" (click)="refreshCurrentTeam()" [disabled]="!refreshButtonIsActive">Refresh</button>
+</div>
