@@ -1,6 +1,15 @@
-<div class="col-md-9">
-    <employees [hidden]="!currentTeam.name"></employees>
-</div>
-<div class="col-md-3">
-    <teams></teams>
+<nav class="navbar navbar-light bg-faded">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Teams</a>
+    </div>
+</nav>
+<div class="container body-content">
+    <div id="content">
+        <div class="col-md-9">
+            <employees [hidden]="!currentTeam.name"></employees>
+        </div>
+        <div class="col-md-3">
+            <teams></teams>
+        </div>
+    </div>
 </div>
