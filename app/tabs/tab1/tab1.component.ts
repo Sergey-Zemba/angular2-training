@@ -35,12 +35,6 @@ export class Tab1Component implements OnInit, OnDestroy  {
             .debounceTime(200)
             .map(term => term === '' ? [] : this.employeesSearchPipe.transform(this.availableEmployees, term));
 
-    initEmployeesSets() {
-        this.availableEmployees = this.employeesService.getAvailableEmployees(this.currentTeam.members);
-        this.currentMembers = Array.from(this.currentTeam.members);
-        this.refreshButtonIsActive = this.currentTeam.members.length > 0 ? true : false;
-    }
-
     itemSelected($event: NgbTypeaheadSelectItemEvent) {
         $event.preventDefault();
         this.currentMembers.push($event.item);
@@ -94,6 +88,12 @@ export class Tab1Component implements OnInit, OnDestroy  {
         this.teamChangedSubscription.unsubscribe();
     }
 
+    private initEmployeesSets() {
+        this.availableEmployees = this.employeesService.getAvailableEmployees(this.currentTeam.members);
+        this.currentMembers = Array.from(this.currentTeam.members);
+        this.refreshButtonIsActive = this.currentTeam.members.length > 0 ? true : false;
+    }
+    
     private disableRefreshButtonIfNoMembers() {
         if (this.currentTeam.members.length === 0 && this.currentMembers.length === 0) {
             this.refreshButtonIsActive = false;

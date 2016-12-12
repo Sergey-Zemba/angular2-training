@@ -19,13 +19,6 @@ export class Tab2Component implements OnInit, OnDestroy {
     sortReverse: boolean = false;
     constructor(private teamsService: TeamsService, private employeesService: EmployeesService) { }
 
-    initEmployeesSets() {
-        this.availableEmployees = this.employeesService.getAvailableEmployees(this.currentTeam.members);
-        for(let i in this.availableEmployees){
-            this.availableEmployees[i]['hidden'] = true;
-        }
-    }
-
     addMember(employee: Employee) {
         this.currentTeam.members.push(employee);
         this.availableEmployees.splice(this.availableEmployees.indexOf(employee), 1);
@@ -49,5 +42,12 @@ export class Tab2Component implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.teamChangedSubscription.unsubscribe();
+    }
+
+    private initEmployeesSets() {
+        this.availableEmployees = this.employeesService.getAvailableEmployees(this.currentTeam.members);
+        for(let i in this.availableEmployees){
+            this.availableEmployees[i]['hidden'] = true;
+        }
     }
 }
