@@ -1,7 +1,7 @@
 <div id="add-block" class="form-inline col-md-12">
-    <input type="text" id="createTeamField" class="form-control" placeholder="Create a new team" [(ngModel)]="newTeam.name" #name="ngModel"
-        pattern="^[A-Za-z0-9 ]+$" (ngModelChange)="checkIfNameIsTaken()" />
-    <button class="btn btn-default float-md-right" [disabled]="!newTeam.name || name.invalid || nameIsTaken" (click)="addTeam()">Add</button>
+    <input type="text" class="form-control" placeholder="Create a new team" [(ngModel)]="newTeam.name" #name="ngModel"
+        pattern="^[A-Za-z0-9 ]+$" (ngModelChange)="checkIfNameIsTaken()" #createTeamField />
+    <button class="btn btn-default float-md-right" [disabled]="!newTeam.name || name.invalid || nameIsTaken" (click)="addTeam(); createTeamField.focus()">Add</button>
     <div [hidden]="name.valid" class="text-danger">Latin characters and numbers only!</div>
     <div [hidden]="!nameIsTaken" class="text-danger">This name is already taken!</div>
 </div>

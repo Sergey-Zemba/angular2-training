@@ -1,28 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+
 import { TeamsService } from '../../teams/teams.service';
-import { EmployeesService } from '../employees.service';
-import { Employee } from '../helper-classes/employee';
-import { TabComponent } from './tab.component';
-import { EmployeesSearchPipe } from '../pipes/employees-search.pipe';
-import { EmployeesOrderByPipe } from '../pipes/employees-order-by.pipe';
+import { EmployeesService } from '../../employees/employees.service';
+import { Employee } from '../../employees/models/employee';
+import { Team } from '../../teams/models/team';
+import { EmployeesSearchPipe } from '../../shared/employees-search.pipe';
+import { OrderByPipe } from '../../shared/order-by.pipe';
 
 @Component({
     selector: 'tab1',
-    templateUrl: 'app/employees/tabs/tab1.template.html',
-    providers: [EmployeesService],
-    styleUrls: ['app/employees/tabs/tab1.css']
+    templateUrl: 'app/tabs/tab1/tab1.template.html',
+    styleUrls: ['app/tabs/tab1/tab1.css']
 })
 
-export class Tab1Component extends TabComponent {
+export class Tab1Component implements OnInit, OnDestroy  {
+    currentTeam: Team = null;
+    availableEmployees: Employee[] = [];
+    model: string = '';
+    teamChangedSubscription: EventEmitter<Team> = new EventEmitter();
     currentMembers: Employee[] = [];
     refreshButtonIsActive: boolean = false;
     employeesSearchPipe: EmployeesSearchPipe = new EmployeesSearchPipe();
-    employeesOrderByPipe: EmployeesOrderByPipe = new EmployeesOrderByPipe();
-    constructor(teamsService: TeamsService, employeesService: EmployeesService) { super(teamsService, employeesService); }
+    orderByPipe: OrderByPipe = new OrderByPipe();
+    constructor(private teamsService: TeamsService, private employeesService: EmployeesService) { }
 
     resultFormatter = (x: { name: string, job: string, grade: string }) => x.name + ', ' + x.job + ' (' + x.grade + ')';
 
@@ -41,7 +45,6 @@ export class Tab1Component extends TabComponent {
         $event.preventDefault();
         this.currentMembers.push($event.item);
         this.availableEmployees.splice(this.availableEmployees.indexOf($event.item), 1);
-        this.focus();
         this.model = '';
         if (this.refreshButtonIsActive === false) {
             this.refreshButtonIsActive = true;
@@ -58,7 +61,7 @@ export class Tab1Component extends TabComponent {
     removeLastMember() {
         if (this.model === '' && this.currentMembers.length > 0) {
             this.availableEmployees.push(this.currentMembers.pop());
-            this.employeesOrderByPipe.transform(this.availableEmployees, 'id', false);
+            this.orderByPipe.transform(this.availableEmployees, 'id', false);
             this.disableRefreshButtonIfNoMembers();
         }
     }
@@ -67,12 +70,28 @@ export class Tab1Component extends TabComponent {
         let member: Employee = this.currentMembers[index];
         this.currentMembers.splice(index, 1);
         this.availableEmployees.push(member);
-        this.employeesOrderByPipe.transform(this.availableEmployees, 'id', false);
+        this.orderByPipe.transform(this.availableEmployees, 'id', false);
         this.disableRefreshButtonIfNoMembers();
     }
 
-    focus() {
-        document.getElementById('tagInput').focus();
+    ngOnInit() {
+        this.currentTeam = this.teamsService.currentTeam;
+        this.employeesService.getAllEmployees()
+            .subscribe(
+            () => {
+                console.log('success');
+                if (this.currentTeam.name) {
+                    this.initEmployeesSets();
+                }
+            },
+            error => {
+                console.log(error);
+            });
+        this.teamChangedSubscription = this.teamsService.teamChanged$.subscribe(() => this.initEmployeesSets());
+    }
+
+    ngOnDestroy() {
+        this.teamChangedSubscription.unsubscribe();
     }
 
     private disableRefreshButtonIfNoMembers() {

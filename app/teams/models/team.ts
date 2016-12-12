@@ -1,4 +1,4 @@
-import { Employee } from '../../employees/helper-classes/employee';
+import { Employee } from '../../employees/models/employee';
 
 export class Team {
     name: string;

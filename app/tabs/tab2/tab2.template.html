@@ -39,12 +39,12 @@
                 </tr>
             </thead>
             <tbody>
-                <template *ngIf="availableEmployees.length > 0" ngFor let-employee [ngForOf]="availableEmployees | employeesSearchPipe:model | employeesOrderByPipe:sortType:sortReverse" let-i="index">
+                <template *ngIf="availableEmployees.length > 0" ngFor let-employee [ngForOf]="availableEmployees.slice(0) | employeesSearchPipe:model | orderByPipe:sortType:sortReverse" let-i="index">
                     <tr class="clickable" (click)="employee.hidden = !employee.hidden" placement="bottom" ngbTooltip="{{employee.name}}, {{employee.job}} ({{employee.grade}})">
-                        <td [innerHTML]="employee.name | employeesHighlightPipe:model"></td>
-                        <td [innerHTML]="employee.job | employeesHighlightPipe:model"></td>
+                        <td [innerHTML]="employee.name | highlightPipe:model"></td>
+                        <td [innerHTML]="employee.job | highlightPipe:model"></td>
                         <td>{{employee.age}}</td>
-                        <td [innerHTML]="employee.grade | employeesHighlightPipe:model"></td>
+                        <td [innerHTML]="employee.grade | highlightPipe:model"></td>
                         <td class="text-sm-center"><button class="btn btn-sm" (click)="addMember(employee)">Choose</button></td>
                     </tr>
                     <tr [hidden]="employee.hidden">

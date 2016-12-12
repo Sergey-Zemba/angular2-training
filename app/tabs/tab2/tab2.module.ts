@@ -3,22 +3,23 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { TeamsComponent } from './teams.component';
-import { TeamsService } from './teams.service';
+import { SharedModule } from '../../shared/shared.module';
+
+import { Tab2Component } from './tab2.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        NgbModule
+        NgbModule,
+        SharedModule
     ],
     declarations: [
-        TeamsComponent
+        Tab2Component
     ],
     exports: [
-        TeamsComponent
-    ],
-    providers: [TeamsService]
+        Tab2Component
+    ]
 })
 
-export class TeamsModule { }
+export class Tab2Module { }

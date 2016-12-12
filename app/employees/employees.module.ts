@@ -1,41 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Routes, RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
 import { EmployeesComponent } from './employees.component';
-import { Tab1Component } from './tabs/tab1.component';
-import { Tab2Component } from './tabs/tab2.component';
-import { EmployeesSearchPipe } from './pipes/employees-search.pipe';
-import { EmployeesHighlightPipe } from './pipes/employees-highlight.pipe';
-import { EmployeesOrderByPipe } from './pipes/employees-order-by.pipe';
-
-const appRoutes: Routes = [
-    { path: 'one', component: Tab1Component },
-    { path: 'two', component: Tab2Component },
-    { path: '', redirectTo: '/one', pathMatch: 'full' }
-];
+import { EmployeesService } from './employees.service';
+import { TabsRoutingModule } from '../tabs/tabs-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgbModule,
-        RouterModule.forChild(appRoutes),
+        TabsRoutingModule,
+        HttpModule
     ],
     declarations: [
-        EmployeesComponent,
-        Tab1Component,
-        Tab2Component,
-        EmployeesSearchPipe,
-        EmployeesHighlightPipe,
-        EmployeesOrderByPipe
+        EmployeesComponent
     ],
     exports: [
         EmployeesComponent
-    ]
+    ],
+    providers: [EmployeesService]
 })
 
 export class EmployeesModule { }

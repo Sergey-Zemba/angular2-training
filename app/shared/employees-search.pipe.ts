@@ -1,9 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Employee } from '../helper-classes/employee';
+import { Employee } from '../employees/models/employee';
 
 @Pipe({
-    name: 'employeesSearchPipe',
-    pure: false
+    name: 'employeesSearchPipe'
 })
 
 export class EmployeesSearchPipe implements PipeTransform {

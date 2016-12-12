@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Team } from './helper-classes/team';
+import { Team } from './models/team';
 import { TeamsService } from './teams.service';
-import { Employee } from '../employees/helper-classes/employee';
+import { Employee } from '../employees/models/employee';
 
 @Component({
     selector: 'teams',
@@ -25,7 +25,6 @@ export class TeamsComponent implements OnInit {
     addTeam(): void {
         this.teamsService.addTeam(this.newTeam);
         this.newTeam = this.teamsService.createNewTeam();
-        document.getElementById('createTeamField').focus();
     }
 
     setCurrentTeam($event: NgbPanelChangeEvent): void {
@@ -38,7 +37,7 @@ export class TeamsComponent implements OnInit {
 
     ngOnInit() {
         this.newTeam = this.teamsService.createNewTeam();
-        this.teams = this.teamsService.getTeams();
-        this.currentTeam = this.teamsService.getCurrentTeam();
+        this.teams = this.teamsService.teams;
+        this.currentTeam = this.teamsService.currentTeam;
     }
 }

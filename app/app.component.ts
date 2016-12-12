@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TeamsService } from './teams/teams.service';
-import { Team } from './teams/helper-classes/team';
+import { Team } from './teams/models/team';
 
 @Component({
     selector: 'teams-app',
-    templateUrl: 'app/app.template.html',
-    providers: [TeamsService]
+    templateUrl: 'app/app.template.html'
 })
 
 export class AppComponent implements OnInit {
@@ -13,6 +12,6 @@ export class AppComponent implements OnInit {
     constructor(private teamsService: TeamsService) { }
 
     ngOnInit(){
-        this.currentTeam = this.teamsService.getCurrentTeam();
+        this.currentTeam = this.teamsService.currentTeam;
     }
 }

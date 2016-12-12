@@ -1,12 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Team } from './helper-classes/team';
-import { Employee } from '../employees/helper-classes/employee';
+import { Team } from './models/team';
+import { Employee } from '../employees/models/employee';
 
 @Injectable()
 export class TeamsService {
     teamChanged$: EventEmitter<Team>;
-    private teams: Team[] = [];
-    private currentTeam: Team = new Team('');
+    teams: Team[] = [];
+    currentTeam: Team = new Team('');
 
     constructor() {
         this.teamChanged$ = new EventEmitter();
@@ -14,14 +14,6 @@ export class TeamsService {
 
     createNewTeam(): Team {
         return new Team('');
-    }
-
-    getTeams(): Team[] {
-        return this.teams;
-    }
-
-    getCurrentTeam(): Team {
-        return this.currentTeam;
     }
 
     checkIfNameIsTaken(name: string): boolean {

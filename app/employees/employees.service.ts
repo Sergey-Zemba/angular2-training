@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/observable/throw';
-import { Employee } from './helper-classes/employee';
+import { Employee } from './models/employee';
 
 @Injectable()
 export class EmployeesService {
@@ -24,22 +24,8 @@ export class EmployeesService {
     getAvailableEmployees(takenEmployees: Employee[]): Employee[] {
         let availableEmployees: Employee[] = Array.from(this.allEmployees);
         for (let index in takenEmployees) {
-            availableEmployees.splice(this.indexOf(availableEmployees, takenEmployees[index]), 1);
+            availableEmployees = availableEmployees.filter(e => e.id !==  takenEmployees[index].id);
         }
         return availableEmployees;
-    }
-
-    filter(employees: Employee[], query: string): Employee[] {
-        return employees.filter(v => v.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-            || v.job.toLowerCase().indexOf(query.toLowerCase()) !== -1
-            || v.grade.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-    }
-
-    private indexOf(array: Employee[], element: Employee): number {
-        for (let index in array) {
-            if (array[index].id === element.id) {
-                return parseInt(index);
-            }
-        }
     }
 }
